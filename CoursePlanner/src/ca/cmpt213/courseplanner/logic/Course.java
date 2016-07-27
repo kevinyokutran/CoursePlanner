@@ -30,8 +30,7 @@ public class Course {
 	}
 
 	public static void main(String[] args) {
-		String directory = "/home/kytran/sfuhome/cmpt213/cmpt213a5/CoursePlanner" +
-				"/src/ca/cmpt213/courseplanner/logic/course_data_2016.csv";
+		String directory = "data/course_data_2016.csv";
 		loadFromCSV(directory);
 	}
 
