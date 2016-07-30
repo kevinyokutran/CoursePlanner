@@ -29,7 +29,7 @@ public class CSVParser {
 					course.setInfo(headers[i], columns[i]);
 				}
 				course.addToCourseMap(course);
-
+				count++;
 			}
 			System.out.println("Successfully parsed " + count + " entries from CSV");
 			csv.close();
@@ -42,8 +42,7 @@ public class CSVParser {
 	public static void main(String[] args) {
 		CSVParser parser = new CSVParser();
 		parser.loadCoursesFromCSV();
-		List<Course> cmptCourses = Course.courses.get("CMPT");
-		System.out.println(cmptCourses.get(0).getCatalogNumber());
+		Course.dumpModel();
 	}
 
 }

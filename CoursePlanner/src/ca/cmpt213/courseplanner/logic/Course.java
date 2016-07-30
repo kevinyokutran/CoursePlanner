@@ -1,5 +1,6 @@
 package ca.cmpt213.courseplanner.logic;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -10,8 +11,7 @@ import java.util.List;
  * */
 public class Course {
 
-	public static HashMap<String,ArrayList<Course>> courses = new HashMap<>();
-
+	public static HashMap<String,HashMap<String,ArrayList<Course>>> allDepts = new HashMap<>();
 	private String semester;
 	private String subject;
 	private String catalogNumber;
@@ -27,22 +27,64 @@ public class Course {
 	}
 
 	public static void addToCourseMap(Course course) {
-		if (!Course.courses.containsKey(course.getSubject())) {
-			Course.courses.put(course.getSubject(), new ArrayList<>());
+		String subject = course.getSubject();
+		String catalogNum = course.getCatalogNumber();
+		// Initialize new HashMap for department if it doesn't exist
+		if (!Course.allDepts.containsKey(subject)) {
+			Course.allDepts.put(course.getSubject(), new HashMap<>());
 		}
-		else {
-			ArrayList<Course> courseList = Course.courses.get(course.getSubject());
-			courseList.add(course);
+		HashMap<String,ArrayList<Course>> deptList = Course.allDepts.get(subject);
+		// Initialize new ArrayList for catalog number if it doesn't exist
+		if (!deptList.containsKey(catalogNum)) {
+			deptList.put(catalogNum, new ArrayList<>());
+		}
+		// Add the course
+		ArrayList<Course> courseList = getCourseList(subject, catalogNum);
+		courseList.add(course);
+	}
+
+	public static void dumpModel() {
+		for (String dept : Course.allDepts.keySet()) {
+			HashMap<String, ArrayList<Course>> deptMap = Course.allDepts.get(dept);
+			for (String catalogNum : deptMap.keySet()) {
+				ArrayList<Course> courseList = getCourseList(dept, catalogNum);
+				System.out.println(dept + " " + catalogNum);
+				for (Course course : courseList) {
+					System.out.println(String.format(
+						"    %s in %s by %s", course.getSemester(), course.getLocation(), course.getInstructorsAsString()
+					));
+					System.out.println(String.format(
+						"        Type=%s, %s/%s", course.getComponentCode(), course.getEnrollmentCapacity(), course.getEnrollmentTotal()
+					));
+				}
+				System.out.println();
+			}
 		}
 	}
 
 	// Getters
+	public static ArrayList<Course> getCourseList(String dept, String catalogNum) {
+		return allDepts.get(dept).get(catalogNum);
+	}
+	public String getSemester() { return this.semester; }
 	public String getSubject() {
 		return this.subject;
 	}
 	public String getCatalogNumber() {
 		return this.catalogNumber;
 	}
+	public String getLocation() { return this.location; }
+	public String getEnrollmentCapacity() { return this.enrollmentCapacity; }
+	public String getEnrollmentTotal() { return this.enrollmentTotal; }
+	public String getInstructorsAsString() {
+		String instructorString = "";
+		for (String instructor : this.instructors) {
+			instructorString = instructorString + instructor + " ";
+		}
+		return instructorString;
+	}
+	public String getComponentCode() { return this.componentCode; }
+
 
 	// Setters
 	public void setInfo(String header, String columnData) {
@@ -59,11 +101,12 @@ public class Course {
 			case "LOCATION":
 				setLocation(columnData);
 				break;
-			case "ENROLLMENTCAPACITY":
+			case "ENROLMENTCAPACITY":
 				setEnrollmentCapacity(columnData);
 				break;
-			case "ENROLLMENTTOTAL":
+			case "ENROLMENTTOTAL":
 				setEnrollmentTotal(columnData);
+				break;
 			case "INSTRUCTORS":
 				setInstructors(columnData);
 				break;
