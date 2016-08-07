@@ -83,9 +83,9 @@ public class Course {
 	public String getComponentCode() { return this.componentCode; }
 	public static List<String> getAlphabeticalDepartmentList() {
 		ArrayList<String> deptList = new ArrayList<>();
-		SortedSet<String> keys = new TreeSet<String>(allDepts.keySet());
-		for (String key : keys) {
-			deptList.add(key);
+		SortedSet<String> sortedDepts = new TreeSet<>(allDepts.keySet());
+		for (String dept : sortedDepts) {
+			deptList.add(dept);
 		}
 		return deptList;
 	}
