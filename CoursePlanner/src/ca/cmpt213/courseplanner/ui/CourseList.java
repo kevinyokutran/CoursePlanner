@@ -1,17 +1,22 @@
 package ca.cmpt213.courseplanner.ui;
 
+import ca.cmpt213.courseplanner.logic.Course;
+
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import java.awt.*;
-import java.util.Observable;
 
 public class CourseList extends BasePanel {
 
 	private static final String TITLE = "Course List";
 	private JPanel panel;
+	private String department = "CMPT";
+	private JList<String> courseList;
+	private JScrollPane scrollPane;
 
-	public CourseList (Observable model) {
+	public CourseList(CoursePlanner model) {
 		super(model);
+		registerAsObserver();
 	}
 
 	@Override
@@ -23,10 +28,49 @@ public class CourseList extends BasePanel {
 
 	@Override
 	protected JPanel setPanel() {
+
 		panel = new JPanel();
 		panel.setBackground(Color.WHITE);
 		panel.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED,
 				Color.BLACK, Color.GRAY));
+//		panel.add(new JList(
+//				Course.getCoursesInDepartment(this.department).toArray()
+//		));
+		updateList(department);
+
 		return panel;
+	}
+
+	private void updateList(String department) {
+		this.department = department;
+		System.out.println(this.department);
+
+		panel.removeAll();
+
+		String[] test = {"Hello", "Hi", "Hi", "Hi", "Hi", "Hi", "Hi", "Hi", "Hi", "Hi"};
+		courseList = new JList(Course.getCoursesInDepartment(department).toArray());
+		courseList.setSelectionMode(courseList.HORIZONTAL_WRAP);
+		courseList.setVisibleRowCount(-1);
+//		courseList.setPreferredSize(new Dimension(0, panel.getHeight()));
+
+
+		scrollPane = new JScrollPane(courseList);
+		scrollPane.setPreferredSize(new Dimension(panel.getWidth() - 10, panel.getHeight() - 10));
+
+		panel.add(scrollPane);
+
+		for (String coursestring : Course.getCoursesInDepartment(this.department)) {
+			System.out.println(coursestring);
+		}
+
+		panel.revalidate();
+
+	}
+
+	/* -------------------
+	 * Observer Methods
+	 * ------------------- */
+	private void registerAsObserver() {
+		model.addObserver( department -> updateList(department));
 	}
 }

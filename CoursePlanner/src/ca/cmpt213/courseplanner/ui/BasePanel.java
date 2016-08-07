@@ -2,13 +2,12 @@ package ca.cmpt213.courseplanner.ui;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Observable;
 
 public abstract class BasePanel extends JPanel{
 
-	private static Observable model;
+	public static CoursePlanner model;
 
-	public BasePanel(Observable model) {
+	public BasePanel(CoursePlanner model) {
 		this.model = model;
 		setLayout(new BorderLayout());
 		setTitle();
@@ -17,9 +16,9 @@ public abstract class BasePanel extends JPanel{
 		add(setPanel(), BorderLayout.CENTER);
 	}
 
-	abstract protected Component setTitle();
+	protected abstract Component setTitle();
 
-	abstract protected Component setPanel();
+	protected abstract Component setPanel();
 
 	//When we have a model done
 //	protected Observable getModel() {

@@ -3,14 +3,13 @@ package ca.cmpt213.courseplanner.ui;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import java.awt.*;
-import java.util.Observable;
 
 public class Statistics extends BasePanel{
 
 	private static final String TITLE = "Statistics";
 	private JPanel panel;
 
-	public Statistics (Observable model) {
+	public Statistics (CoursePlanner model) {
 		super(model);
 	}
 

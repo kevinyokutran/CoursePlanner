@@ -2,17 +2,19 @@ package ca.cmpt213.courseplanner.ui;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Observable;
+import java.util.ArrayList;
 
 public class CoursePlanner extends JFrame {
 
 	private static final String TITLE = "FAS Course Planner";
 	private static final int PADDING = 8;
 
-	private Observable model;
+	private CoursePlanner model;
+//	private Observable model;
+	private static ArrayList<CoursePlannerObserver> observers = new ArrayList<>();
 
 	public CoursePlanner() {
-		model = new Observable();
+		model = this;
 		setTitle(TITLE);
 		// Use a box layout to create 3 vertical columns
 		setLayout(new BoxLayout(this.getContentPane(), BoxLayout.LINE_AXIS));
@@ -24,9 +26,10 @@ public class CoursePlanner extends JFrame {
 		setVisible(true);
 	}
 
-	public static void main(String[] args) {
-		new CoursePlanner();
-	}
+//	public static void main(String[] args) {
+//		CSVParser.loadCoursesFromCSV();
+//		CoursePlanner planner = new CoursePlanner();
+//	}
 
 	// http://www.ugrad.cs.ubc.ca/~cs219/CourseNotes/Swing/swing-LayoutManagers-Box.html
 	// Box.createRigidArea is padding between each panel so they don't get squished
@@ -106,10 +109,26 @@ public class CoursePlanner extends JFrame {
 		int minHeight = 200;
 
 		// Default height and width of the JPanel at startup
-		Dimension prefSize = new Dimension(minWidth, minHeight);
+		Dimension prefSize = new Dimension(minWidth, panel.getHeight());
 		panel.setPreferredSize(prefSize);
 		// Keep the same min width but allow the height to change
 		Dimension newSize = new Dimension(minWidth, Integer.MAX_VALUE);
 		panel.setMaximumSize(newSize);
+
+//		Dimension prefSize = panel.getPreferredSize();
+//		Dimension newSize = new Dimension(Integer.MAX_VALUE, (int)prefSize.getHeight());
+//		panel.setMaximumSize(newSize);
 	}
+
+
+	/* -------------------
+	 * Observer Methods
+	 * ------------------- */
+	public void addObserver(CoursePlannerObserver observer) {
+		observers.add(observer);
+	}
+	public static ArrayList<CoursePlannerObserver> getObservers() {
+		return observers;
+	}
+
 }

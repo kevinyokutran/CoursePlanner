@@ -1,14 +1,13 @@
 package ca.cmpt213.courseplanner.logic;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
 /* Contains all information regarding courses.
  * The course information is initially loaded from a CSV file
  * */
 public class Course {
 
-	public static HashMap<String, HashMap<String, ArrayList<Course>>> allDepts = new HashMap<>();
+	public static final HashMap<String, HashMap<String, ArrayList<Course>>> allDepts = new HashMap<>();
 	private String semester;
 	private String subject;
 	private String catalogNumber;
@@ -36,15 +35,15 @@ public class Course {
 			deptList.put(catalogNum, new ArrayList<>());
 		}
 		// Add the course
-		ArrayList<Course> courseList = getCourseList(subject, catalogNum);
+		ArrayList<Course> courseList = getCourseOfferings(subject, catalogNum);
 		courseList.add(course);
 	}
 
 	public static void dumpModel() {
-		for (String dept : Course.allDepts.keySet()) {
+		for (String dept : getAlphabeticalDepartmentList()) {
 			HashMap<String, ArrayList<Course>> deptMap = Course.allDepts.get(dept);
 			for (String catalogNum : deptMap.keySet()) {
-				ArrayList<Course> courseList = getCourseList(dept, catalogNum);
+				ArrayList<Course> courseList = getCourseOfferings(dept, catalogNum);
 				System.out.println(dept + " " + catalogNum);
 				for (Course course : courseList) {
 					System.out.println(String.format(
@@ -60,8 +59,29 @@ public class Course {
 	}
 
 	// Getters
-	public static ArrayList<Course> getCourseList(String dept, String catalogNum) {
+	public static ArrayList<Course> getCourseOfferings(String dept, String catalogNum) {
 		return allDepts.get(dept).get(catalogNum);
+	}
+
+	public static ArrayList<String> getCoursesInDepartment(String department) {
+		ArrayList<String> courses = new ArrayList<>();
+		try {
+			SortedSet<String> sortedCourses = new TreeSet<>(allDepts.get(department).keySet());
+			for (String course : sortedCourses) {
+				courses.add(department + " " + course);
+			}
+		} catch (Exception E) {
+		}
+		return courses;
+	}
+
+	public static ArrayList<String> getAlphabeticalDepartmentList() {
+		ArrayList<String> deptList = new ArrayList<>();
+		SortedSet<String> sortedDepts = new TreeSet<>(allDepts.keySet());
+		for (String dept : sortedDepts) {
+			deptList.add(dept);
+		}
+		return deptList;
 	}
 
 	public String getSemester() {
@@ -99,7 +119,6 @@ public class Course {
 	public String getComponentCode() {
 		return this.componentCode;
 	}
-
 
 	// Setters
 	public void setInfo(String header, String columnData) {
