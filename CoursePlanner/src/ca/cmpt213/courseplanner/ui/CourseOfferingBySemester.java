@@ -11,7 +11,7 @@ public class CourseOfferingBySemester extends BasePanel{
 
 	private JPanel panel;
 
-	public CourseOfferingBySemester(CoursePlanner model) {
+	public CourseOfferingBySemester(Observable model) {
 		super(model);
 	}
 

@@ -1,15 +1,14 @@
 package ca.cmpt213.courseplanner.ui;
 
 import javax.swing.*;
-import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.util.Observable;
 
 public abstract class BasePanel extends JPanel{
 
-	public static CoursePlanner model;
+	private static Observable model;
 
-	public BasePanel(CoursePlanner model) {
+	public BasePanel(Observable model) {
 		this.model = model;
 		setLayout(new BorderLayout());
 		setTitle();
@@ -18,18 +17,9 @@ public abstract class BasePanel extends JPanel{
 		add(setPanel(), BorderLayout.CENTER);
 	}
 
-	protected Component setTitle() {
-		JLabel title = new JLabel();
-		return title;
-	}
+	abstract protected Component setTitle();
 
-	protected Component setPanel() {
-		JPanel panel = new JPanel();
-		panel.setBackground(Color.WHITE);
-		panel.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED,
-				Color.BLACK, Color.GRAY));
-		return panel;
-	}
+	abstract protected Component setPanel();
 
 	//When we have a model done
 //	protected Observable getModel() {

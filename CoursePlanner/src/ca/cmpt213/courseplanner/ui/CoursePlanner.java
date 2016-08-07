@@ -1,10 +1,7 @@
 package ca.cmpt213.courseplanner.ui;
 
-import ca.cmpt213.courseplanner.logic.CSVParser;
-
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.Observable;
 
 public class CoursePlanner extends JFrame {
@@ -12,12 +9,10 @@ public class CoursePlanner extends JFrame {
 	private static final String TITLE = "FAS Course Planner";
 	private static final int PADDING = 8;
 
-	private CoursePlanner model;
-//	private Observable model;
-	private static ArrayList<CoursePlannerObserver> observers = new ArrayList<>();
+	private Observable model;
 
 	public CoursePlanner() {
-		model = this;
+		model = new Observable();
 		setTitle(TITLE);
 		// Use a box layout to create 3 vertical columns
 		setLayout(new BoxLayout(this.getContentPane(), BoxLayout.LINE_AXIS));
@@ -29,10 +24,9 @@ public class CoursePlanner extends JFrame {
 		setVisible(true);
 	}
 
-//	public static void main(String[] args) {
-//		CSVParser.loadCoursesFromCSV();
-//		CoursePlanner planner = new CoursePlanner();
-//	}
+	public static void main(String[] args) {
+		new CoursePlanner();
+	}
 
 	// http://www.ugrad.cs.ubc.ca/~cs219/CourseNotes/Swing/swing-LayoutManagers-Box.html
 	// Box.createRigidArea is padding between each panel so they don't get squished
@@ -118,15 +112,4 @@ public class CoursePlanner extends JFrame {
 		Dimension newSize = new Dimension(minWidth, Integer.MAX_VALUE);
 		panel.setMaximumSize(newSize);
 	}
-
-	/* -------------------
-	 * Observer Methods
-	 * ------------------- */
-	public void addObserver(CoursePlannerObserver observer) {
-		observers.add(observer);
-	}
-	public static ArrayList<CoursePlannerObserver> getObservers() {
-		return observers;
-	}
-
 }

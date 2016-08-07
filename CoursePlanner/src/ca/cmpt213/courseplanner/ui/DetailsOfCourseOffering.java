@@ -10,7 +10,7 @@ public class DetailsOfCourseOffering extends BasePanel{
 	private static final String TITLE = "Details of Course Offering";
 	private JPanel panel;
 
-	public DetailsOfCourseOffering(CoursePlanner model) {
+	public DetailsOfCourseOffering(Observable model) {
 		super(model);
 	}
 

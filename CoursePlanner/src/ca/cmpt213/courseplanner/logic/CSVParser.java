@@ -2,8 +2,6 @@ package ca.cmpt213.courseplanner.logic;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -16,7 +14,7 @@ public class CSVParser {
 	private final static String SPLIT_REGEX = ",(?=([^\"]*\"[^\"]*\")*[^\"]*$)";
 	private final static String directory = "data/course_data_2016.csv";
 
-	public static void loadCoursesFromCSV() {
+	public void loadCoursesFromCSV() {
 		int count = 0;
 		try{
 			Scanner csv = new Scanner(new File(directory));
