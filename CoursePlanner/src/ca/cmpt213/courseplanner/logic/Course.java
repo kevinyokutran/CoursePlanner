@@ -1,10 +1,7 @@
 package ca.cmpt213.courseplanner.logic;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /* Contains all information regarding courses.
  * The course information is initially loaded from a CSV file
@@ -44,7 +41,7 @@ public class Course {
 	}
 
 	public static void dumpModel() {
-		for (String dept : Course.allDepts.keySet()) {
+		for (String dept : getAlphabeticalDepartmentList()) {
 			HashMap<String, ArrayList<Course>> deptMap = Course.allDepts.get(dept);
 			for (String catalogNum : deptMap.keySet()) {
 				ArrayList<Course> courseList = getCourseList(dept, catalogNum);
@@ -84,7 +81,14 @@ public class Course {
 		return instructorString;
 	}
 	public String getComponentCode() { return this.componentCode; }
-
+	public static List<String> getAlphabeticalDepartmentList() {
+		ArrayList<String> deptList = new ArrayList<>();
+		SortedSet<String> keys = new TreeSet<String>(allDepts.keySet());
+		for (String key : keys) {
+			deptList.add(key);
+		}
+		return deptList;
+	}
 
 	// Setters
 	public void setInfo(String header, String columnData) {
