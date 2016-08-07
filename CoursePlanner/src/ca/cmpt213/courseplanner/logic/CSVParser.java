@@ -16,7 +16,7 @@ public class CSVParser {
 	private final static String SPLIT_REGEX = ",(?=([^\"]*\"[^\"]*\")*[^\"]*$)";
 	private final static String directory = "data/course_data_2016.csv";
 
-	public void loadCoursesFromCSV() {
+	public static void loadCoursesFromCSV() {
 		int count = 0;
 		try{
 			Scanner csv = new Scanner(new File(directory));

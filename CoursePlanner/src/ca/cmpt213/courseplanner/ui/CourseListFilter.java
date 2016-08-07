@@ -1,5 +1,7 @@
 package ca.cmpt213.courseplanner.ui;
 
+import ca.cmpt213.courseplanner.logic.Course;
+
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import java.awt.*;
@@ -35,13 +37,11 @@ public class CourseListFilter extends BasePanel{
 	}
 
 	private JPanel departmentList() {
-		// Test String of list for courses
-		String[] petStrings = {"Bird", "Cat", "Dog", "Rabbit", "Pig"};
-
+		String[] departments = Course.getAlphabeticalDepartmentList().stream().toArray(String[]::new);
 		JPanel departmentPanel = new JPanel();
 		departmentPanel.add(new JLabel("Department"));
 
-		final JComboBox<String> departmentList = new JComboBox(petStrings);
+		final JComboBox<String> departmentList = new JComboBox(departments);
 		departmentPanel.add(departmentList);
 
 		return departmentPanel;

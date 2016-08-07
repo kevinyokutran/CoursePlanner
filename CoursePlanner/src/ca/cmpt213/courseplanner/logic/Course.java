@@ -8,7 +8,7 @@ import java.util.*;
  * */
 public class Course {
 
-	public static HashMap<String,HashMap<String,ArrayList<Course>>> allDepts = new HashMap<>();
+	public static final HashMap<String,HashMap<String,ArrayList<Course>>> allDepts = new HashMap<>();
 	private String semester;
 	private String subject;
 	private String catalogNumber;
@@ -63,6 +63,14 @@ public class Course {
 	public static ArrayList<Course> getCourseList(String dept, String catalogNum) {
 		return allDepts.get(dept).get(catalogNum);
 	}
+	public static ArrayList<String> getAlphabeticalDepartmentList() {
+		ArrayList<String> deptList = new ArrayList<>();
+		SortedSet<String> sortedDepts = new TreeSet<>(allDepts.keySet());
+		for (String dept : sortedDepts) {
+			deptList.add(dept);
+		}
+		return deptList;
+	}
 	public String getSemester() { return this.semester; }
 	public String getSubject() {
 		return this.subject;
@@ -81,14 +89,6 @@ public class Course {
 		return instructorString;
 	}
 	public String getComponentCode() { return this.componentCode; }
-	public static List<String> getAlphabeticalDepartmentList() {
-		ArrayList<String> deptList = new ArrayList<>();
-		SortedSet<String> sortedDepts = new TreeSet<>(allDepts.keySet());
-		for (String dept : sortedDepts) {
-			deptList.add(dept);
-		}
-		return deptList;
-	}
 
 	// Setters
 	public void setInfo(String header, String columnData) {

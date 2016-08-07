@@ -1,5 +1,7 @@
 package ca.cmpt213.courseplanner.ui;
 
+import ca.cmpt213.courseplanner.logic.CSVParser;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.Observable;
@@ -25,6 +27,7 @@ public class CoursePlanner extends JFrame {
 	}
 
 	public static void main(String[] args) {
+		CSVParser.loadCoursesFromCSV();
 		new CoursePlanner();
 	}
 
