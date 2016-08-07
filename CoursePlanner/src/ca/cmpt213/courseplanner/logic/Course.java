@@ -36,7 +36,7 @@ public class Course {
 			deptList.put(catalogNum, new ArrayList<>());
 		}
 		// Add the course
-		ArrayList<Course> courseList = getCourseList(subject, catalogNum);
+		ArrayList<Course> courseList = getCourseOfferings(subject, catalogNum);
 		courseList.add(course);
 	}
 
@@ -44,7 +44,7 @@ public class Course {
 		for (String dept : getAlphabeticalDepartmentList()) {
 			HashMap<String, ArrayList<Course>> deptMap = Course.allDepts.get(dept);
 			for (String catalogNum : deptMap.keySet()) {
-				ArrayList<Course> courseList = getCourseList(dept, catalogNum);
+				ArrayList<Course> courseList = getCourseOfferings(dept, catalogNum);
 				System.out.println(dept + " " + catalogNum);
 				for (Course course : courseList) {
 					System.out.println(String.format(
@@ -60,8 +60,19 @@ public class Course {
 	}
 
 	// Getters
-	public static ArrayList<Course> getCourseList(String dept, String catalogNum) {
+	public static ArrayList<Course> getCourseOfferings(String dept, String catalogNum) {
 		return allDepts.get(dept).get(catalogNum);
+	}
+	public static ArrayList<String> getCoursesInDepartment(String department) {
+		ArrayList<String> courses = new ArrayList<>();
+		try {
+			SortedSet<String> sortedCourses = new TreeSet<>(allDepts.get(department).keySet());
+			for (String course : sortedCourses) {
+				courses.add(course);
+			}
+		}
+		catch (Exception E) {}
+		return courses;
 	}
 	public static ArrayList<String> getAlphabeticalDepartmentList() {
 		ArrayList<String> deptList = new ArrayList<>();

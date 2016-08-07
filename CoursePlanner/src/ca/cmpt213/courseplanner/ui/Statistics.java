@@ -10,7 +10,7 @@ public class Statistics extends BasePanel{
 	private static final String TITLE = "Statistics";
 	private JPanel panel;
 
-	public Statistics (Observable model) {
+	public Statistics (CoursePlanner model) {
 		super(model);
 	}
 

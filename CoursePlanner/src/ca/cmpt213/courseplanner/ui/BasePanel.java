@@ -7,9 +7,9 @@ import java.util.Observable;
 
 public abstract class BasePanel extends JPanel{
 
-	private static Observable model;
+	public static CoursePlanner model;
 
-	public BasePanel(Observable model) {
+	public BasePanel(CoursePlanner model) {
 		this.model = model;
 		setLayout(new BorderLayout());
 		setTitle();

@@ -5,14 +5,17 @@ import ca.cmpt213.courseplanner.logic.Course;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Observable;
 
 public class CourseListFilter extends BasePanel{
 
 	private static final String TITLE = "Course List Filter";
 	private JPanel panel;
+	private JComboBox<String> departmentList;
 
-	public CourseListFilter (Observable model) {
+	public CourseListFilter (CoursePlanner model) {
 		super(model);
 	}
 
@@ -41,7 +44,7 @@ public class CourseListFilter extends BasePanel{
 		JPanel departmentPanel = new JPanel();
 		departmentPanel.add(new JLabel("Department"));
 
-		final JComboBox<String> departmentList = new JComboBox(departments);
+		this.departmentList = new JComboBox(departments);
 		departmentPanel.add(departmentList);
 
 		return departmentPanel;
@@ -74,11 +77,28 @@ public class CourseListFilter extends BasePanel{
 	private JPanel updateCourseList() {
 		JPanel updateCourseListPanel = new JPanel();
 		final JButton updateCourseListButton = new JButton("Update Course List");
+		final JComboBox departmentList = this.departmentList;
 		updateCourseListButton.setLayout(new BoxLayout(updateCourseListButton,
 				BoxLayout.LINE_AXIS));
+		updateCourseListButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String department = departmentList.getSelectedItem().toString();
+				notifyObservers(department);
+			}
+		});
 		updateCourseListPanel.add(updateCourseListButton);
 
 		return updateCourseListPanel;
 	}
 
+	/* -------------------
+	 * Observer Methods
+	 * ------------------- */
+	private void notifyObservers(String department) {
+		for (CoursePlannerObserver observer : CoursePlanner.getObservers()) {
+			observer.stateChanged(department);
+		}
+		revalidate();
+	}
 }
