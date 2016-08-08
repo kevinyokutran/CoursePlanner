@@ -75,7 +75,7 @@ public class CourseOfferingBySemester extends BasePanel{
 				c.weightx = 1;
 				c.weighty = 1;
 				c.gridx = getXPositionBySemester(semester);
-				c.gridy = recentYear - year + 1; // +1 to adjust for border
+				c.gridy = year - oldestYear + 1; // +1 to adjust for border
 				String btnText = course.getSubject() + " "
 						+ course.getCatalogNumber() + " - "
 						+ course.getLocation();

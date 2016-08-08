@@ -102,18 +102,44 @@ public class Course {
 		return deptList;
 	}
 
-	public static int[] getYearRangeOfCourseOfferings(String department, String courseNumber) {
+//	public static int[] getYearRangeOfCourseOfferings(String department, String courseNumber) {
+//		int[] range = new int[2];
+//		range[0] = Integer.MAX_VALUE;
+//		range[1] = Integer.MIN_VALUE;
+//		for (Course course : getCourseOfferings(department, courseNumber)) {
+//			String semester = course.getSemester();
+//			int year = Integer.parseInt(semester.substring(1, semester.length()-1));
+//			if (year < range[0]) {
+//				range[0] = year;
+//			}
+//			else if (year > range[1]) {
+//				range[1] = year;
+//			}
+//		}
+//		range[0] += BASE_YEAR;
+//		range[1] += BASE_YEAR;
+//		return range;
+//	}
+
+	public static int[] getYearRangeOfAllCourses() {
 		int[] range = new int[2];
 		range[0] = Integer.MAX_VALUE;
 		range[1] = Integer.MIN_VALUE;
-		for (Course course : getCourseOfferings(department, courseNumber)) {
-			String semester = course.getSemester();
-			int year = Integer.parseInt(semester.substring(1, semester.length()-1));
-			if (year < range[0]) {
-				range[0] = year;
-			}
-			else if (year > range[1]) {
-				range[1] = year;
+		for (String dept : getAlphabeticalDepartmentList()) {
+			HashMap<String, ArrayList<Course>> deptMap = Course.ALL_DEPTS.get(dept);
+			for (String catalogNum : deptMap.keySet()) {
+				ArrayList<Course> courseList = getCourseOfferings(dept, catalogNum);
+				System.out.println(dept + " " + catalogNum);
+				for (Course course : courseList) {
+					String semester = course.getSemester();
+					int year = Integer.parseInt(semester.substring(1, semester.length()-1));
+					if (year < range[0]) {
+						range[0] = year;
+					}
+					else if (year > range[1]) {
+						range[1] = year;
+					}
+				}
 			}
 		}
 		range[0] += BASE_YEAR;
@@ -170,9 +196,9 @@ public class Course {
 	public String getInstructorsAsString() {
 		String instructorString = "";
 		for (String instructor : this.instructors) {
-			instructorString = instructorString + instructor + " ";
+			instructorString = instructorString + instructor + ", ";
 		}
-		return instructorString;
+		return instructorString.substring(0, instructorString.length()-2);
 	}
 
 	public String getComponentCode() {
