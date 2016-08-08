@@ -68,11 +68,24 @@ public class Course {
 		try {
 			SortedSet<String> sortedCourses = new TreeSet<>(allDepts.get(department).keySet());
 			for (String course : sortedCourses) {
-				courses.add(department + " " + course);
+
+				String filterCourseOfLetters = filterCourseOfLetters(course);
+				System.out.println(filterCourseOfLetters);
+
+				if (Integer.parseInt(filterCourseOfLetters) < 500 && undergrad) {
+					courses.add(department + " " + course);
+				} else if (Integer.parseInt(filterCourseOfLetters) >= 500 && grad) {
+					courses.add(department + " " + course);
+				}
 			}
 		} catch (Exception E) {
 		}
 		return courses;
+	}
+
+	private static String filterCourseOfLetters(String course) {
+		course = course.replaceAll("[^\\d.]", "");
+		return course;
 	}
 
 	public static ArrayList<String> getAlphabeticalDepartmentList() {

@@ -79,17 +79,18 @@ public class CourseListFilter extends BasePanel{
 		JPanel updateCourseListPanel = new JPanel();
 		final JButton updateCourseListButton = new JButton("Update Course List");
 		final JComboBox departmentList = this.departmentList;
-		boolean isUndergradChecked = undergradCheckBox.isSelected();
-		boolean isGradChecked = gradCheckbox.isSelected();
 		updateCourseListButton.setLayout(new BoxLayout(updateCourseListButton,
 				BoxLayout.LINE_AXIS));
 		updateCourseListButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String department = departmentList.getSelectedItem().toString();
-				notifyCourseListFilterObservers(department, true, true);
+				boolean isUndergradChecked = undergradCheckBox.isSelected();
+				boolean isGradChecked = gradCheckbox.isSelected();
+				notifyCourseListFilterObservers(department, isUndergradChecked, isGradChecked);
 			}
 		});
+		revalidate();
 		updateCourseListPanel.add(updateCourseListButton);
 
 		return updateCourseListPanel;
