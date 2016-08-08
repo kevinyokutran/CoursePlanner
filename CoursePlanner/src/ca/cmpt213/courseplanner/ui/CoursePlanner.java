@@ -13,6 +13,7 @@ public class CoursePlanner extends JFrame {
 //	private Observable model;
 	private static ArrayList<CourseListFilterObserver> courseListFilterObservers = new ArrayList<>();
 	private static ArrayList<CourseListObserver> courseListObservers = new ArrayList<>();
+	private static ArrayList<CourseOfferingObserver> courseOfferingObservers = new ArrayList<>();
 
 	public CoursePlanner() {
 		model = this;
@@ -137,5 +138,11 @@ public class CoursePlanner extends JFrame {
 	}
 	public static ArrayList<CourseListObserver> getCourseListObservers() {
 		return courseListObservers;
+	}
+	public void addCourseOfferingObserver(CourseOfferingObserver observer) {
+		courseOfferingObservers.add(observer);
+	}
+	public static ArrayList<CourseOfferingObserver> getCourseOfferingObservers() {
+		return courseOfferingObservers;
 	}
 }

@@ -5,6 +5,8 @@ import ca.cmpt213.courseplanner.logic.Course;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class CourseOfferingBySemester extends BasePanel{
@@ -38,7 +40,8 @@ public class CourseOfferingBySemester extends BasePanel{
 		c.fill = GridBagConstraints.BOTH;
 		c.gridy = 0;
 		c.gridx = 1;
-		c.ipadx = 20;
+		c.weightx = 1;
+//		c.weighty = 1;
 		panel.add(new JLabel("Spring"), c);
 		c.gridx = 2;
 		panel.add(new JLabel("Summer"), c);
@@ -51,7 +54,8 @@ public class CourseOfferingBySemester extends BasePanel{
 			c.fill = GridBagConstraints.BOTH;
 			c.gridx = 0;
 			c.gridy = y;
-			c.ipadx = 1;
+			c.weightx = 1;
+//			c.weighty = 1;
 			JLabel label = new JLabel(Integer.toString(i));
 			gbl.setConstraints(label, c);
 			panel.add(label,c);
@@ -59,20 +63,23 @@ public class CourseOfferingBySemester extends BasePanel{
 	}
 
 	private void setInnerGrid(GridBagLayout gbl, GridBagConstraints c, int[] range, ArrayList<Course> courses) {
-		int earliestYear = range[0];
 		int recentYear = range[1];
 		for (Course course : courses) {
 			JPanel btnPanel = new JPanel();
+			btnPanel.setLayout(new BorderLayout());
 			int year = course.getYearOfCourse();
 			String semester = course.getSeasonOfCourse();
+			c.weightx = 1;
+//			c.weighty = 1;
 			c.fill = GridBagConstraints.BOTH;
 			c.gridx = getXPositionBySemester(semester);
-			c.gridy = recentYear - year + 1;
+			c.gridy = recentYear - year + 1; // +1 to adjust for border
 			String btnText = course.getSubject() + " "
 					+ course.getCatalogNumber() + " - "
 					+ course.getLocation();
 			JButton btn = new JButton(btnText);
-			btnPanel.add(btn);
+			btn.addActionListener(courseOfferingActionListener(course));
+			btnPanel.add(btn, BorderLayout.NORTH);
 			gbl.setConstraints(btnPanel, c);
 
 			panel.add(btnPanel,c);
@@ -111,6 +118,8 @@ public class CourseOfferingBySemester extends BasePanel{
 		// Set up GridBagLayout
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		GridBagConstraints c = new GridBagConstraints();
+		c.weightx = 1;
+//		c.weighty = 1;
 		panel.setLayout(gridBagLayout);
 		// Fill GridBagLayout with JPanels
 		int[] range = Course.getYearRangeOfCourseOfferings(department, courseNumber);
@@ -118,12 +127,34 @@ public class CourseOfferingBySemester extends BasePanel{
 		setYBorder(gridBagLayout, c, range);
 		setInnerGrid(gridBagLayout, c, range, Course.getCourseOfferings(department, courseNumber));
 		fillAllGridsWithBlankJPanels(gridBagLayout, c, range);
+		// Refresh with changes
 		panel.revalidate();
 		panel.repaint();
 	}
+
+	private ActionListener courseOfferingActionListener(Course course) {
+		return new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				notifyCourseOfferingObservers(course);
+			}
+		};
+	}
+
+	/* -------------------
+	 * Observer Methods
+	 * ------------------- */
 
 	private void registerAsObserver() {
 		model.addCourseListObserver( (department, courseNumber) ->
 				updateGrid(department, courseNumber));
 	}
+
+	private void notifyCourseOfferingObservers(Course course) {
+		for (CourseOfferingObserver observer : CoursePlanner.getCourseOfferingObservers()) {
+			observer.stateChanged(course);
+		}
+		revalidate();
+	}
+
 }
