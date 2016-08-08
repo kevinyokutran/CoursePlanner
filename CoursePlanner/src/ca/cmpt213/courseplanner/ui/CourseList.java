@@ -44,7 +44,7 @@ public class CourseList extends BasePanel {
 		panel.removeAll();
 
 		courseList = new JList(Course.getCoursesInDepartment(department, isUndergradChecked, isGradChecked).toArray());
-		courseList.setSelectionMode(courseList.HORIZONTAL_WRAP);
+		courseList.setLayoutOrientation(courseList.HORIZONTAL_WRAP);
 		courseList.setVisibleRowCount(-1);
 //		courseList.setPreferredSize(new Dimension(0, panel.getHeight()));
 		courseList.addMouseListener(updateCourseOfferings());

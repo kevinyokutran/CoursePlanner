@@ -53,8 +53,9 @@ public class DetailsOfCourseOffering extends BasePanel {
 		GridBagConstraints outerC = new GridBagConstraints();
 		outerC.weightx = 1;
 		outerC.weightx = 1;
+		outerC.fill = GridBagConstraints.BOTH;
 		courseOfferingPanel.add(detailPanel, outerC);
-		panel.add(courseOfferingPanel, BoxLayout.X_AXIS);
+		panel.add(courseOfferingPanel);
 		panel.revalidate();
 		panel.repaint();
 
@@ -66,7 +67,6 @@ public class DetailsOfCourseOffering extends BasePanel {
 		c.gridx = 1;
 		c.gridy = 0;
 		c.fill = GridBagConstraints.BOTH;
-//		c.gridheight = 4;
 		JTextField courseName = new JTextField(course.getSubject() + " " + course.getCatalogNumber());
 		courseName.setEditable(false);
 		JTextField semester = new JTextField(course.getSemester());
@@ -82,17 +82,6 @@ public class DetailsOfCourseOffering extends BasePanel {
 		detailPanel.add(location, c);
 		c.gridy = 3;
 		detailPanel.add(instructors, c);
-
-//		JPanel panel = new JPanel();
-//		panel.setLayout(new GridBagLayout());
-//		JTextArea textArea = new JTextArea(Integer.MAX_VALUE,4);
-//		textArea.append(course.getSubject() + " " + course.getCatalogNumber() + "\n");
-//		textArea.append(course.getSemester() + "\n");
-//		textArea.append(course.getLocation() + "\n");
-//		textArea.append(course.getInstructorsAsString());
-//		textArea.setEditable(false);
-//		panel.add(textArea, c);
-//		detailPanel.add(textArea, c);
 	}
 
 	private void fillLabels(JPanel detailPanel, GridBagConstraints c, Course course) {

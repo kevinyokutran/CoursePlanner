@@ -40,7 +40,7 @@ public class CourseOfferingBySemester extends BasePanel{
 		c.fill = GridBagConstraints.BOTH;
 		c.gridy = 0;
 		c.gridx = 1;
-		c.weightx = 1;
+//		c.weightx = 1;
 //		c.weighty = 1;
 		panel.add(new JLabel("Spring"), c);
 		c.gridx = 2;
@@ -55,7 +55,7 @@ public class CourseOfferingBySemester extends BasePanel{
 			c.gridx = 0;
 			c.gridy = y;
 			c.weightx = 1;
-			c.weighty = 1;
+//			c.weighty = 1;
 			JLabel label = new JLabel(Integer.toString(i));
 			gbl.setConstraints(label, c);
 			panel.add(label,c);
@@ -73,7 +73,7 @@ public class CourseOfferingBySemester extends BasePanel{
 			String semester = course.getSeasonOfCourse();
 			if (year >= oldestYear && year <= recentYear) {
 				c.weightx = 1;
-//			c.weighty = 1;
+				c.weighty = 1;
 				c.gridx = getXPositionBySemester(semester);
 				c.gridy = recentYear - year + 1; // +1 to adjust for border
 				String btnText = course.getSubject() + " "
@@ -127,9 +127,7 @@ public class CourseOfferingBySemester extends BasePanel{
 		c.weighty = 1;
 		panel.setLayout(gridBagLayout);
 		// Fill GridBagLayout with JPanels
-//		int[] range = Course.getYearRangeOfCourseOfferings(department, courseNumber);
 		int[] range = Course.getYearRangeOfAllCourses();
-		System.out.println(range[0]);System.out.println(range[1]);
 		setXBorder(gridBagLayout, c);
 		setYBorder(gridBagLayout, c, range);
 		setInnerGrid(gridBagLayout, c, range, Course.getCourseOfferings(department, courseNumber));
