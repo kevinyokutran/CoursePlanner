@@ -30,4 +30,15 @@ public class CourseOfferingBySemester extends BasePanel{
 		return panel;
 	}
 
+	private void updateGrid() {
+		GridBagLayout courseOfferings = new GridBagLayout();
+		panel.removeAll();
+
+		panel.revalidate();
+	}
+
+//	private void registerAsObserver() {
+//		model.addObserver( (department, isUndergradChecked, isGradChecked) ->
+//				updateGrid(department, isUndergradChecked, isGradChecked));
+//	}
 }

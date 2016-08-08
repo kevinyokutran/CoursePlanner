@@ -36,19 +36,18 @@ public class CourseList extends BasePanel {
 //		panel.add(new JList(
 //				Course.getCoursesInDepartment(this.department).toArray()
 //		));
-		updateList(department);
+		updateList(department, true, false);
 
 		return panel;
 	}
 
-	private void updateList(String department) {
+	private void updateList(String department, boolean isUndergradChecked, boolean isGradChecked) {
 		this.department = department;
 		System.out.println(this.department);
 
 		panel.removeAll();
 
-		String[] test = {"Hello", "Hi", "Hi", "Hi", "Hi", "Hi", "Hi", "Hi", "Hi", "Hi"};
-		courseList = new JList(Course.getCoursesInDepartment(department).toArray());
+		courseList = new JList(Course.getCoursesInDepartment(department, isUndergradChecked, isGradChecked).toArray());
 		courseList.setSelectionMode(courseList.HORIZONTAL_WRAP);
 		courseList.setVisibleRowCount(-1);
 //		courseList.setPreferredSize(new Dimension(0, panel.getHeight()));
@@ -59,9 +58,9 @@ public class CourseList extends BasePanel {
 
 		panel.add(scrollPane);
 
-		for (String coursestring : Course.getCoursesInDepartment(this.department)) {
-			System.out.println(coursestring);
-		}
+//		for (String coursestring : Course.getCoursesInDepartment(this.department, isUndergradChecked, isGradChecked))) {
+//			System.out.println(coursestring);
+//		}
 
 		panel.revalidate();
 
@@ -71,6 +70,7 @@ public class CourseList extends BasePanel {
 	 * Observer Methods
 	 * ------------------- */
 	private void registerAsObserver() {
-		model.addObserver( department -> updateList(department));
+		model.addObserver( (department, isUndergradChecked, isGradChecked) ->
+				updateList(department, isUndergradChecked, isGradChecked));
 	}
 }

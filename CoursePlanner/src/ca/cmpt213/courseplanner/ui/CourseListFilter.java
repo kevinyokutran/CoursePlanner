@@ -13,6 +13,8 @@ public class CourseListFilter extends BasePanel{
 	private static final String TITLE = "Course List Filter";
 	private JPanel panel;
 	private JComboBox<String> departmentList;
+	private JCheckBox undergradCheckBox;
+	private JCheckBox gradCheckbox;
 
 	public CourseListFilter (CoursePlanner model) {
 		super(model);
@@ -51,11 +53,11 @@ public class CourseListFilter extends BasePanel{
 
 	private JPanel undergraduateCheckbox() {
 		JPanel undergraduateCheckboxPanel = new JPanel();
-		final JCheckBox checkBox = new JCheckBox();
+		undergradCheckBox = new JCheckBox();
 		undergraduateCheckboxPanel.setLayout(new BoxLayout(undergraduateCheckboxPanel,
 				BoxLayout.LINE_AXIS));
 
-		undergraduateCheckboxPanel.add(checkBox);
+		undergraduateCheckboxPanel.add(undergradCheckBox);
 		undergraduateCheckboxPanel.add(new JLabel("Include undergrad courses"));
 
 		return undergraduateCheckboxPanel;
@@ -63,11 +65,11 @@ public class CourseListFilter extends BasePanel{
 
 	private JPanel graduateCheckbox() {
 		JPanel graduateCheckboxPanel = new JPanel();
-		final JCheckBox checkBox = new JCheckBox();
+		gradCheckbox = new JCheckBox();
 		graduateCheckboxPanel.setLayout(new BoxLayout(graduateCheckboxPanel,
 				BoxLayout.LINE_AXIS));
 
-		graduateCheckboxPanel.add(checkBox);
+		graduateCheckboxPanel.add(gradCheckbox);
 		graduateCheckboxPanel.add(new JLabel("Include undergrad courses"));
 
 		return graduateCheckboxPanel;
@@ -77,13 +79,15 @@ public class CourseListFilter extends BasePanel{
 		JPanel updateCourseListPanel = new JPanel();
 		final JButton updateCourseListButton = new JButton("Update Course List");
 		final JComboBox departmentList = this.departmentList;
+		boolean isUndergradChecked = undergradCheckBox.isSelected();
+		boolean isGradChecked = gradCheckbox.isSelected();
 		updateCourseListButton.setLayout(new BoxLayout(updateCourseListButton,
 				BoxLayout.LINE_AXIS));
 		updateCourseListButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String department = departmentList.getSelectedItem().toString();
-				notifyObservers(department);
+				notifyObservers(department, isUndergradChecked, isGradChecked);
 			}
 		});
 		updateCourseListPanel.add(updateCourseListButton);
@@ -94,9 +98,9 @@ public class CourseListFilter extends BasePanel{
 	/* -------------------
 	 * Observer Methods
 	 * ------------------- */
-	private void notifyObservers(String department) {
+	private void notifyObservers(String department, boolean isUndergradChecked, boolean isGradChecked) {
 		for (CoursePlannerObserver observer : CoursePlanner.getObservers()) {
-			observer.stateChanged(department);
+			observer.stateChanged(department, isUndergradChecked, isGradChecked);
 		}
 		revalidate();
 	}

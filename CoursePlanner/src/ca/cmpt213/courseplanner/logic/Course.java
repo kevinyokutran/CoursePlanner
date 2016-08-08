@@ -63,12 +63,18 @@ public class Course {
 		return allDepts.get(dept).get(catalogNum);
 	}
 
-	public static ArrayList<String> getCoursesInDepartment(String department) {
+	public static ArrayList<String> getCoursesInDepartment(String department, boolean undergrad, boolean grad) {
 		ArrayList<String> courses = new ArrayList<>();
 		try {
 			SortedSet<String> sortedCourses = new TreeSet<>(allDepts.get(department).keySet());
 			for (String course : sortedCourses) {
-				courses.add(department + " " + course);
+				if (Integer.parseInt(course) < 500 && undergrad) {
+					courses.add(department + " " + course);
+					System.out.println(course);
+				} else if (Integer.parseInt(course) >= 500 && grad) {
+					courses.add(department + " " + course);
+				}
+
 			}
 		} catch (Exception E) {
 		}

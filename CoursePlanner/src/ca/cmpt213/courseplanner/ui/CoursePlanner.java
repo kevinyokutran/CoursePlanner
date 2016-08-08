@@ -68,7 +68,7 @@ public class CoursePlanner extends JFrame {
 		int minHeight = 300;
 
 		JPanel container = new JPanel();
-		container.setLayout(new BoxLayout(container, BoxLayout.PAGE_AXIS));
+		container.setLayout(new GridBagLayout());
 
 		container.add(Box.createRigidArea(new Dimension(0, PADDING)));
 		JPanel courseOfferingBySemester = new CourseOfferingBySemester(model);
