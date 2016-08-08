@@ -66,12 +66,10 @@ public class CourseList extends BasePanel {
 		MouseListener courseListListener = new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if (e.getClickCount() == 1) {
 					String selectedItem = courseList.getSelectedValue();
 					String department = selectedItem.split(" ")[0];
 					String courseNumber = selectedItem.split(" ")[1];
 					notifyCourseListObservers(department, courseNumber);
-				}
 			}
 		};
 		return courseListListener;
