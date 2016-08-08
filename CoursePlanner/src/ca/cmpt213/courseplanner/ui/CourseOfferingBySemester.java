@@ -12,6 +12,7 @@ public class CourseOfferingBySemester extends BasePanel{
 
 	public CourseOfferingBySemester(CoursePlanner model) {
 		super(model);
+		registerAsObserver();
 	}
 
 	@Override
@@ -30,15 +31,16 @@ public class CourseOfferingBySemester extends BasePanel{
 		return panel;
 	}
 
-	private void updateGrid() {
-		GridBagLayout courseOfferings = new GridBagLayout();
-		panel.removeAll();
-
-		panel.revalidate();
+	private void updateGrid(String department, String courseNumber) {
+		System.out.println(department + " " + courseNumber);
+//		GridBagLayout courseOfferings = new GridBagLayout();
+//		panel.removeAll();
+//
+//		panel.revalidate();
 	}
 
-//	private void registerAsObserver() {
-//		model.addObserver( (department, isUndergradChecked, isGradChecked) ->
-//				updateGrid(department, isUndergradChecked, isGradChecked));
-//	}
+	private void registerAsObserver() {
+		model.addCourseListObserver( (department, courseNumber) ->
+				updateGrid(department, courseNumber));
+	}
 }

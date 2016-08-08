@@ -5,6 +5,7 @@ import ca.cmpt213.courseplanner.logic.Course;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import java.awt.*;
+import java.awt.event.*;
 
 public class CourseList extends BasePanel {
 
@@ -28,15 +29,10 @@ public class CourseList extends BasePanel {
 
 	@Override
 	protected JPanel setPanel() {
-
 		panel = new JPanel();
 		panel.setBackground(Color.WHITE);
 		panel.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED,
 				Color.BLACK, Color.GRAY));
-//		panel.add(new JList(
-//				Course.getCoursesInDepartment(this.department).toArray()
-//		));
-		updateList(department, true, false);
 
 		return panel;
 	}
@@ -51,7 +47,7 @@ public class CourseList extends BasePanel {
 		courseList.setSelectionMode(courseList.HORIZONTAL_WRAP);
 		courseList.setVisibleRowCount(-1);
 //		courseList.setPreferredSize(new Dimension(0, panel.getHeight()));
-
+		courseList.addMouseListener(updateCourseOfferings());
 
 		scrollPane = new JScrollPane(courseList);
 		scrollPane.setPreferredSize(new Dimension(panel.getWidth() - 10, panel.getHeight() - 10));
@@ -66,11 +62,33 @@ public class CourseList extends BasePanel {
 
 	}
 
+	private MouseListener updateCourseOfferings() {
+		MouseListener courseListListener = new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 1) {
+					String selectedItem = courseList.getSelectedValue();
+					String department = selectedItem.split(" ")[0];
+					String courseNumber = selectedItem.split(" ")[1];
+					notifyCourseListObservers(department, courseNumber);
+				}
+			}
+		};
+		return courseListListener;
+	}
+
 	/* -------------------
 	 * Observer Methods
 	 * ------------------- */
 	private void registerAsObserver() {
-		model.addObserver( (department, isUndergradChecked, isGradChecked) ->
+		model.addCourseListFilterObserver( (department, isUndergradChecked, isGradChecked) ->
 				updateList(department, isUndergradChecked, isGradChecked));
+	}
+
+	private void notifyCourseListObservers(String department, String courseNumber) {
+		for (CourseListObserver observer : CoursePlanner.getCourseListObservers()) {
+			observer.stateChanged(department, courseNumber);
+		}
+		revalidate();
 	}
 }

@@ -11,7 +11,8 @@ public class CoursePlanner extends JFrame {
 
 	private CoursePlanner model;
 //	private Observable model;
-	private static ArrayList<CoursePlannerObserver> observers = new ArrayList<>();
+	private static ArrayList<CourseListFilterObserver> courseListFilterObservers = new ArrayList<>();
+	private static ArrayList<CourseListObserver> courseListObservers = new ArrayList<>();
 
 	public CoursePlanner() {
 		model = this;
@@ -109,7 +110,7 @@ public class CoursePlanner extends JFrame {
 		int minHeight = 200;
 
 		// Default height and width of the JPanel at startup
-		Dimension prefSize = new Dimension(minWidth, panel.getHeight());
+		Dimension prefSize = new Dimension(minWidth, minHeight);
 		panel.setPreferredSize(prefSize);
 		// Keep the same min width but allow the height to change
 		Dimension newSize = new Dimension(minWidth, Integer.MAX_VALUE);
@@ -124,11 +125,16 @@ public class CoursePlanner extends JFrame {
 	/* -------------------
 	 * Observer Methods
 	 * ------------------- */
-	public void addObserver(CoursePlannerObserver observer) {
-		observers.add(observer);
+	public void addCourseListFilterObserver(CourseListFilterObserver observer) {
+		courseListFilterObservers.add(observer);
 	}
-	public static ArrayList<CoursePlannerObserver> getObservers() {
-		return observers;
+	public static ArrayList<CourseListFilterObserver> getCourseListFilterObservers() {
+		return courseListFilterObservers;
 	}
-
+	public void addCourseListObserver(CourseListObserver observer) {
+		courseListObservers.add(observer);
+	}
+	public static ArrayList<CourseListObserver> getCourseListObservers() {
+		return courseListObservers;
+	}
 }

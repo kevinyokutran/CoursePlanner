@@ -68,13 +68,7 @@ public class Course {
 		try {
 			SortedSet<String> sortedCourses = new TreeSet<>(allDepts.get(department).keySet());
 			for (String course : sortedCourses) {
-				if (Integer.parseInt(course) < 500 && undergrad) {
-					courses.add(department + " " + course);
-					System.out.println(course);
-				} else if (Integer.parseInt(course) >= 500 && grad) {
-					courses.add(department + " " + course);
-				}
-
+				courses.add(department + " " + course);
 			}
 		} catch (Exception E) {
 		}

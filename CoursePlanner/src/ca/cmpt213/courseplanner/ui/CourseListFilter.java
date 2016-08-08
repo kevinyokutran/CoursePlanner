@@ -87,7 +87,7 @@ public class CourseListFilter extends BasePanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String department = departmentList.getSelectedItem().toString();
-				notifyObservers(department, isUndergradChecked, isGradChecked);
+				notifyCourseListFilterObservers(department, true, true);
 			}
 		});
 		updateCourseListPanel.add(updateCourseListButton);
@@ -98,8 +98,8 @@ public class CourseListFilter extends BasePanel{
 	/* -------------------
 	 * Observer Methods
 	 * ------------------- */
-	private void notifyObservers(String department, boolean isUndergradChecked, boolean isGradChecked) {
-		for (CoursePlannerObserver observer : CoursePlanner.getObservers()) {
+	private void notifyCourseListFilterObservers(String department, boolean isUndergradChecked, boolean isGradChecked) {
+		for (CourseListFilterObserver observer : CoursePlanner.getCourseListFilterObservers()) {
 			observer.stateChanged(department, isUndergradChecked, isGradChecked);
 		}
 		revalidate();
