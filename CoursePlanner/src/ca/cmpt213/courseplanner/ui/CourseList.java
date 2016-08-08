@@ -14,6 +14,7 @@ public class CourseList extends BasePanel {
 	private String department = "CMPT";
 	private JList<String> courseList;
 	private JScrollPane scrollPane;
+	private static final int PADDING = 10;
 
 	public CourseList(CoursePlanner model) {
 		super(model);
@@ -50,7 +51,7 @@ public class CourseList extends BasePanel {
 		courseList.addMouseListener(updateCourseOfferings());
 
 		scrollPane = new JScrollPane(courseList);
-		scrollPane.setPreferredSize(new Dimension(panel.getWidth() - 10, panel.getHeight() - 10));
+		scrollPane.setPreferredSize(new Dimension(panel.getWidth() - PADDING, panel.getHeight() - PADDING));
 
 		panel.add(scrollPane);
 
