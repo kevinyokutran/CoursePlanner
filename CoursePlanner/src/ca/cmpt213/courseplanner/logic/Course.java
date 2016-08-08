@@ -162,6 +162,55 @@ public class Course {
 		return "";
 	}
 
+	public static int[] findSeasonOfferings(String department, String courseNumber) {
+		int[] seasonOfferings = new int[3];
+		seasonOfferings[0] = 0;
+		seasonOfferings[1] = 0;
+		seasonOfferings[2] = 0;
+
+		for (Course course : getCourseOfferings(department, courseNumber)) {
+
+			String semester = course.getSemester();
+			int seasonCode = Integer.parseInt(semester.substring(semester.length()-1));
+
+			if (seasonCode == SPRING) {
+				seasonOfferings[0]++;
+			}
+			else if (seasonCode == SUMMER) {
+				seasonOfferings[1]++;
+			}
+			else if (seasonCode == FALL) {
+				seasonOfferings[2]++;
+			}
+		}
+		return seasonOfferings;
+	}
+
+	public static int[] findCampusOfferings(String department, String courseNumber) {
+		int[] campusOfferings = new int[4];
+		campusOfferings[0] = 0;
+		campusOfferings[1] = 0;
+		campusOfferings[2] = 0;
+		campusOfferings[3] = 0;
+
+		for (Course course : getCourseOfferings(department, courseNumber)) {
+			System.out.println(department + courseNumber);
+
+			String semesterLocation = course.getLocation();
+
+			if (semesterLocation.equals("BURNABY") ) {
+				campusOfferings[0]++;
+			} else if (semesterLocation.equals("SURREY") ) {
+				campusOfferings[1]++;
+			} else if (semesterLocation.equals("HRBRCNTR")) {
+				campusOfferings[2]++;
+			} else {
+				campusOfferings[3]++;
+			}
+		}
+		return campusOfferings;
+	}
+
 	public int getYearOfCourse() {
 		String semester = this.getSemester();
 		String year = semester.substring(1, semester.length()-1);
