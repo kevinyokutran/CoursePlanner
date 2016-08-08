@@ -55,7 +55,7 @@ public class CourseOfferingBySemester extends BasePanel{
 			c.gridx = 0;
 			c.gridy = y;
 			c.weightx = 1;
-//			c.weighty = 1;
+			c.weighty = 1;
 			JLabel label = new JLabel(Integer.toString(i));
 			gbl.setConstraints(label, c);
 			panel.add(label,c);
@@ -64,25 +64,28 @@ public class CourseOfferingBySemester extends BasePanel{
 
 	private void setInnerGrid(GridBagLayout gbl, GridBagConstraints c, int[] range, ArrayList<Course> courses) {
 		int recentYear = range[1];
+		int oldestYear = range[0];
 		for (Course course : courses) {
 			JPanel btnPanel = new JPanel();
+			btnPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 			btnPanel.setLayout(new BorderLayout());
 			int year = course.getYearOfCourse();
 			String semester = course.getSeasonOfCourse();
-			c.weightx = 1;
+			if (year >= oldestYear && year <= recentYear) {
+				c.weightx = 1;
 //			c.weighty = 1;
-			c.fill = GridBagConstraints.BOTH;
-			c.gridx = getXPositionBySemester(semester);
-			c.gridy = recentYear - year + 1; // +1 to adjust for border
-			String btnText = course.getSubject() + " "
-					+ course.getCatalogNumber() + " - "
-					+ course.getLocation();
-			JButton btn = new JButton(btnText);
-			btn.addActionListener(courseOfferingActionListener(course));
-			btnPanel.add(btn, BorderLayout.NORTH);
-			gbl.setConstraints(btnPanel, c);
+				c.gridx = getXPositionBySemester(semester);
+				c.gridy = recentYear - year + 1; // +1 to adjust for border
+				String btnText = course.getSubject() + " "
+						+ course.getCatalogNumber() + " - "
+						+ course.getLocation();
+				JButton btn = new JButton(btnText);
+				btn.addActionListener(courseOfferingActionListener(course));
+				btnPanel.add(btn, BorderLayout.NORTH);
+				gbl.setConstraints(btnPanel, c);
 
-			panel.add(btnPanel,c);
+				panel.add(btnPanel, c);
+			}
 		}
 	}
 
@@ -90,6 +93,7 @@ public class CourseOfferingBySemester extends BasePanel{
 		for (int i=range[0], y = 1; i<=range[1]; i++, y++) {
 			for (int x=1; x <= 3; x++) {
 				JPanel btnPanel = new JPanel();
+				btnPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 				c.fill = GridBagConstraints.BOTH;
 				c.gridx = x;
 				c.gridy = y;
@@ -118,11 +122,14 @@ public class CourseOfferingBySemester extends BasePanel{
 		// Set up GridBagLayout
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.BOTH;
 		c.weightx = 1;
-//		c.weighty = 1;
+		c.weighty = 1;
 		panel.setLayout(gridBagLayout);
 		// Fill GridBagLayout with JPanels
-		int[] range = Course.getYearRangeOfCourseOfferings(department, courseNumber);
+//		int[] range = Course.getYearRangeOfCourseOfferings(department, courseNumber);
+		int[] range = Course.getYearRangeOfAllCourses();
+		System.out.println(range[0]);System.out.println(range[1]);
 		setXBorder(gridBagLayout, c);
 		setYBorder(gridBagLayout, c, range);
 		setInnerGrid(gridBagLayout, c, range, Course.getCourseOfferings(department, courseNumber));
